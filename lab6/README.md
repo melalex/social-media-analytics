@@ -11,9 +11,5 @@
 ```
 make up
 make run
+make publish
 ```
-
-## Результат роботи
-
-![pipeline.png](/lab5/img/pipeline.png "Pipeline")
-![dashboard.png](/lab5/img/dashboard.png "Dashboard")
