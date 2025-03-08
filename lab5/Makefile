@@ -13,7 +13,7 @@ up:
 	docker-compose up
 
 run: venv
-	$(VENV)/python src/upload_to_elasticsearch.py
+	$(VENV)/python src/fetch_rss_feed.py
 
 include Makefile.venv
 Makefile.venv:

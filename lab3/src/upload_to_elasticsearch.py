@@ -1,7 +1,12 @@
 import json
 from elasticsearch import Elasticsearch
-from src.definitions import EXTERNAL_DATA_FOLDER
-from src.definitions import ES_HOST, INDEX_NAME
+from src.definitions import (
+    ES_PASSWORD,
+    ES_USERNAME,
+    ES_HOST,
+    INDEX_NAME,
+    EXTERNAL_DATA_FOLDER,
+)
 
 
 def generate_batch_json(index, data, output_file):
@@ -20,7 +25,7 @@ def generate_batch_json(index, data, output_file):
 
 def upload_to_elasticsearch(bulk_file, es_host):
     es = Elasticsearch(
-        [es_host], basic_auth=("elastic", "changeme"), verify_certs=False
+        [es_host], basic_auth=(ES_USERNAME, ES_PASSWORD), verify_certs=False
     )
     with open(bulk_file, "r", encoding="utf-8") as file:
         bulk_data = file.read()
