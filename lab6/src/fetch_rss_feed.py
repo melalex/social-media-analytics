@@ -2,10 +2,13 @@ import feedparser
 import schedule
 import time
 
+from datetime import datetime
+
 from elasticsearch import Elasticsearch
 from elasticsearch.helpers import bulk
 
 from src.definitions import (
+    DATETIME_FORMATS,
     ES_HOST,
     ES_PASSWORD,
     ES_USERNAME,
@@ -21,12 +24,14 @@ def fetch_rss_feeds(feeds: list[str]):
     for url in feeds:
         feed = feedparser.parse(url)
         for entry in feed.entries:
+            published = entry.get("published", "Unknown")
             all_entries.append(
                 {
                     "title": entry.title,
                     "link": entry.link,
-                    "published": entry.get("published", "Unknown"),
+                    "published": published,
                     "source": url,
+                    "publication_datetime": parse_datetime(published, DATETIME_FORMATS),
                 }
             )
 
@@ -37,6 +42,15 @@ def fetch_rss_feeds(feeds: list[str]):
     )
 
     bulk(es, actions)
+
+
+def parse_datetime(datetime_str, formats):
+    for fmt in formats:
+        try:
+            return datetime.strptime(datetime_str, fmt)
+        except ValueError:
+            continue
+    return None
 
 
 def fetch_rss_feeds_default():
