@@ -1,0 +1,7 @@
+pyvis==0.3.2
+networkx==3.2.1
+community
+matplotlib==3.9.4
+ipykernel==6.29.5
+jupyter_contrib_nbextensions
+python-louvain
